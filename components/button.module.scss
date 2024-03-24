@@ -1,0 +1,68 @@
+.signInbutton {
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 32px;
+  background: #128C76;
+  color: #ffffff;
+  border: 1.5px solid #128C76;
+  transition: 0.2s all ease-in-out;
+
+  &:hover,
+  &:active {
+    color: #128C76;
+    box-shadow:
+            inset -110px 0 0 0 #ffffff,
+            inset 110px 0 0 0 #ffffff;
+  }
+  &:active {
+      transform: scale(0.8);
+  }
+}
+
+.signOutbutton {
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 32px;
+  background: #ffffff;
+  color: #CA3D3D;
+  border: 1.5px solid #CA3D3D;
+  transition: 0.2s all ease-in-out;
+
+  &:hover,
+  &:active {
+    color: #ffffff;
+    box-shadow:
+            inset -80px 0 0 0 #CA3D3D,
+            inset 80px 0 0 0 #CA3D3D;
+  }
+  &:active {
+    transform: scale(0.8);
+  }
+}
+
+.startbutton {
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 32px;
+  background: #128C76;
+  color: #ffffff;
+  border: 1.5px solid #128C76;
+  transition: 0.2s all ease-in-out;
+
+  &:hover,
+  &:active {
+    color: #128C76;
+    box-shadow:
+            inset -120px 0 0 0 #ffffff,
+            inset 120px 0 0 0 #ffffff;
+  }
+  &:active {
+    transform: scale(0.8);
+  }
+}

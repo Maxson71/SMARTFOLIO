@@ -50,3 +50,16 @@ button::-moz-focus-inner {
   padding: 0;
   border: 0;
 }
+
+
+::-webkit-scrollbar {
+  width: 10px
+}
+
+::-webkit-scrollbar-track {
+  background-color: #ffffff;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #c9c9c9;
+}
+

@@ -1,12 +1,16 @@
-import { Inter } from "next/font/google";
+import { Arimo } from "next/font/google";
 
-import "../app/reset.scss";
+import "./reset.scss";
 
 import Providers from "../components/Providers";
-import Appbar from "../components/Appbar";
+import Appbar from "../components/Appbar/Appbar";
 
 
-const inter = Inter({ subsets: ["latin"] });
+const arimo = Arimo({
+    subsets: ['latin', "cyrillic"],
+    display: 'swap',
+    variable: '--font-arimo',
+})
 
 export const metadata = {
   title: "PortfolioManager",
@@ -16,7 +20,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="ua">
-      <body className={inter.className}>
+      <body className={arimo.className}>
       <Providers>
           <Appbar />
           {children}

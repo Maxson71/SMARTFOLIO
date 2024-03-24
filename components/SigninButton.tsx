@@ -1,22 +1,28 @@
 "use client";
 import React from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
+
+import styles from "./button.module.scss";
 const SigninButton = () => {
     const { data: session } = useSession();
 
     if (session && session.user) {
         return (
-            <div className="flex gap-4 ml-auto">
-                <p className="text-sky-600">{session.user.name}</p>
-                <div onClick={() => signOut()} className="text-red-600">
-                    Sign Out
-                </div>
-            </div>
+            <>
+                <img src={session.user.image} alt={session.user.name} style={{
+                    height: "32px",
+                    borderRadius: "16px"
+                }}
+                />
+                <button onClick={() => signOut()} className={styles.signOutbutton}>
+                    ВИЙТИ
+                </button>
+            </>
         );
     }
     return (
-        <button onClick={() => signIn()} className="text-green-600 ml-auto">
-            Sign In
+        <button onClick={() => signIn()} className={styles.signInbutton}>
+            ЗАРЕЄСТРУВАТИСЬ
         </button>
     );
 };

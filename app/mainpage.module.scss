@@ -1,0 +1,53 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 40px;
+  margin-top: -64px;
+  width: 80%;
+  min-width: 470px;
+  z-index: 1;
+
+  &::before {
+    z-index: -1;
+    content: "";
+    background: rgba(9, 19, 39, 0.5);
+    border-radius: 50%;
+    position: absolute;
+    top: 15%;
+    left: 2%;
+    width: 450px;
+    height: 450px;
+
+  }
+}
+
+.title {
+  font-size: 60px;
+  font-weight: 700;
+}
+
+.description {
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.startbutton {
+    display: flex;
+    align-items: center;
+}
