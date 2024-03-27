@@ -29,11 +29,9 @@
     background: rgba(9, 19, 39, 0.5);
     border-radius: 50%;
     position: absolute;
-    top: 15%;
-    left: 2%;
     width: 450px;
     height: 450px;
-
+    transform: translateX(-25%) translateY(5%);
   }
 }
 

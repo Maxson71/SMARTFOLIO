@@ -2,8 +2,8 @@ import { Arimo } from "next/font/google";
 
 import "./reset.scss";
 
-import Providers from "../components/Providers";
-import Appbar from "../components/Appbar/Appbar";
+import Providers from "@/components/Providers";
+import Appbar from "@/components/appbar/Appbar";
 
 
 const arimo = Arimo({
