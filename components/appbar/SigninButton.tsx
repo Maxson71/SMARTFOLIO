@@ -1,15 +1,16 @@
 "use client";
 import React from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
+import styles from "../button.module.scss";
 
-import styles from "./button.module.scss";
 const SigninButton = () => {
     const { data: session } = useSession();
 
     if (session && session.user) {
         return (
             <>
-                <img src={session.user.image} alt={session.user.name} style={{
+                <img src={session.user.image} alt={session.user.name}
+                     style={{
                     height: "32px",
                     borderRadius: "16px"
                 }}

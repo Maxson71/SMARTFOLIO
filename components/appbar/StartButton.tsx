@@ -2,7 +2,7 @@
 import React from "react";
 import { signIn, useSession } from "next-auth/react";
 
-import styles from "./button.module.scss";
+import styles from "../button.module.scss";
 import Link from "next/link";
 
 const StartButton = () => {

@@ -1,5 +1,5 @@
 import styles from "./mainpage.module.scss";
-import StartButton from "@/components/StartButton";
+import StartButton from "@/components/appbar/StartButton";
 export default function Home() {
   return (
     <main className={styles.main}>

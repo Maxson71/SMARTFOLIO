@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 
-import SigninButton from "../SigninButton";
+import SigninButton from "./SigninButton";
 import styles from "./appbar.module.scss";
 import Colors from "@/constants/colors";
 const App = () => {

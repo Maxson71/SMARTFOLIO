@@ -46,7 +46,7 @@ export const NewPortfolio = ()  => {
                 return;
             }
 
-            const response = await axios.post('api/portfolios', formData);
+            const response = await axios.post('/api/portfolios', formData);
             if (response.status === 200) {
                 router.push(`/portfolio/${response.data.newPortfolio.id}`);
             }
@@ -101,7 +101,7 @@ export const NewPortfolio = ()  => {
             </form>
             :
             <button className={styles.add_portfolios} onClick={handleAddPortfolio}>
-                + Добавити портфель
+                Створити новий портфель
             </button>
     );
 };
