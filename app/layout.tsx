@@ -5,7 +5,6 @@ import "./reset.scss";
 import Providers from "@/components/Providers";
 import Appbar from "@/components/appbar/Appbar";
 
-
 const arimo = Arimo({
     subsets: ['latin', "cyrillic"],
     display: 'swap',

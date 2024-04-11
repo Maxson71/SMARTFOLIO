@@ -3,7 +3,6 @@ import React, { ChangeEvent, FormEvent, useState } from 'react';
 import {useSession} from "next-auth/react";
 import {useRouter} from "next/navigation";
 import axios from 'axios';
-import Colors from "@/constants/colors";
 import styles from "./newportfolio.module.scss";
 
 interface FormData {

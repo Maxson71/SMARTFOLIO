@@ -1,61 +1,116 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, {ChangeEvent, useEffect, useState} from "react";
+import axios from "axios";
+import styles from "./cryptodropdown.module.scss";
 
-const CryptoDropdown = () => {
-    const [cryptos, setCryptos] = useState([]);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [selectedCrypto, setSelectedCrypto] = useState('');
+interface Crypto {
+    name: string;
+    symbol: string;
+    image: string;
+}
+
+interface CryptoDropdownProps {
+    SelectCrypto: (nameCrypto: string, tagCrypto: string, imageCrypto: string) => void;
+}
+
+const CryptoDropdown = (props) => {
+    const [searchQuery, setSearchQuery] = useState<string>('');
+    const [tagCrypto, setTagCrypto] = useState<string>('');
+    const [cryptos, setCryptos] = useState<Crypto[]>([]);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
 
     useEffect(() => {
         const fetchCryptos = async () => {
             try {
-                const response = await axios.get(
-                    'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=100'
-                );
-                setCryptos(response.data);
+                const response = await axios.get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd');
+                const fetchedCryptos = response.data.map((crypto: any) => ({
+                    name: crypto.name,
+                    symbol: crypto.symbol,
+                    image: crypto.image,
+                }));
+                setCryptos(fetchedCryptos);
+                console.log('Запит до api');
             } catch (error) {
-                console.error('Error fetching cryptos:', error);
+                console.error('Помилка при отриманні списку криптовалют:', error);
             }
         };
 
         fetchCryptos();
     }, []);
 
-    const handleSearchChange = (e) => {
-        setSearchTerm(e.target.value);
-    };
-
-    const handleSelectChange = (e) => {
-        setSelectedCrypto(e.target.value);
-    };
-
-    const filteredCryptos = cryptos.filter((crypto) =>
-        crypto.name.toLowerCase().includes(searchTerm.toLowerCase())
+    const filteredCryptos = cryptos.filter(crypto =>
+        crypto.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        crypto.symbol.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setSearchQuery(e.target.value);
+        setIsOpen(true);
+    };
+
+    const handleInputFocus = () => {
+        setSearchQuery("");
+        setIsOpen(true);
+    };
+
+    const handleSelectCrypto = (crypto: Crypto) => {
+        if (crypto.name === '') {
+            setSearchQuery('');
+            setTagCrypto('');
+        } else {
+            setSearchQuery(crypto.name);
+            setTagCrypto(crypto.symbol);
+        }
+        props.onSelectCrypto(crypto.name, crypto.symbol, crypto.image);
+        setIsOpen(false);
+    };
+
     return (
-        <div>
+        <div className={styles.crypto_dropdown}>
+            {isOpen && (
+                <div className={styles.close}
+                     onClick={() => handleSelectCrypto({
+                            image: '',
+                            name: '',
+                            symbol: ''
+                     })}>
+                </div>
+            )
+            }
             <input
                 type="text"
-                placeholder="Search cryptocurrency"
-                value={searchTerm}
-                onChange={handleSearchChange}
+                placeholder={"Пошук криптовалюти"}
+                value={searchQuery}
+                onChange={handleInputChange}
+                onFocus={handleInputFocus}
+                maxLength={20}
+                className={(isOpen || searchQuery == '') ? styles.crypto_search_input : `${styles.crypto_search_input} ${styles.crypto_search_input_active}`}
             />
-            <select value={selectedCrypto} onChange={handleSelectChange}>
-                <option value="">Select a cryptocurrency</option>
-                {filteredCryptos.map((crypto) => (
-                    <option key={crypto.id} value={crypto.name}>
-                        {crypto.name}
-                    </option>
-                ))}
-            </select>
-            {selectedCrypto && (
+            {!isOpen && searchQuery !== '' && (
                 <img
-                    src={filteredCryptos.find(
-                        (c) => c.name.toLowerCase() === selectedCrypto.toLowerCase()
-                    ).image}
-                    alt={selectedCrypto}
+                    src={filteredCryptos.length > 0 ? filteredCryptos[0].image : ''}
+                    alt={tagCrypto}
+                    className={styles.current_crypto_icon}
+                    onClick={handleInputFocus}
                 />
+            )}
+            {isOpen && (
+                <div className={styles.crypto_list}>
+                    {filteredCryptos.map(crypto => (
+                        <div
+                            key={crypto.symbol}
+                            className={styles.crypto_item}
+                            onClick={() => handleSelectCrypto(crypto)}
+                        >
+                            <img
+                                src={crypto.image}
+                                alt={crypto.symbol}
+                                className={styles.crypto_icon}
+                            />
+                            <span className={styles.crypto_name}>{crypto.name}</span>
+                            <span className={styles.crypto_symbol}>{(crypto.symbol).toUpperCase()}</span>
+                        </div>
+                    ))}
+                </div>
             )}
         </div>
     );

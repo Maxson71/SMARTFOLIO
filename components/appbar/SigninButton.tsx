@@ -2,6 +2,12 @@
 import React from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import styles from "../button.module.scss";
+import { useRouter } from 'next/navigation';
+
+const redirectToHome = () => {
+    const router = useRouter();
+    router.push('/');
+};
 
 const SigninButton = () => {
     const { data: session } = useSession();

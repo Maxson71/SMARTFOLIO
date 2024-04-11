@@ -4,7 +4,9 @@ import Link from "next/link";
 import SigninButton from "./SigninButton";
 import styles from "./appbar.module.scss";
 import Colors from "@/constants/colors";
+
 const App = () => {
+
     return (
         <header className={styles.appbar} style={{ background: Colors.whiteColor }}>
             <div className={styles.logo} style={{ color: Colors.primaryColor }}>
@@ -13,7 +15,7 @@ const App = () => {
                 </Link>
             </div>
             <nav className={styles.navbar}>
-                <SigninButton />
+                <SigninButton/>
             </nav>
         </header>
     );

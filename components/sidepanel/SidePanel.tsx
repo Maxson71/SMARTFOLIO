@@ -1,4 +1,4 @@
-import styles from "./sidepanel.module.scss";
+import styles from "./sidePanel.module.scss";
 import {NewPortfolio} from "@/components/sidepanel/NewPortfolio";
 import GetPortfolios from "@/components/sidepanel/GetPortfolios";
 
