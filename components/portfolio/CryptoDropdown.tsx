@@ -3,13 +3,10 @@ import axios from "axios";
 import styles from "./cryptodropdown.module.scss";
 
 interface Crypto {
+    id: string;
     name: string;
     symbol: string;
     image: string;
-}
-
-interface CryptoDropdownProps {
-    SelectCrypto: (nameCrypto: string, tagCrypto: string, imageCrypto: string) => void;
 }
 
 const CryptoDropdown = (props) => {
@@ -23,6 +20,7 @@ const CryptoDropdown = (props) => {
             try {
                 const response = await axios.get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd');
                 const fetchedCryptos = response.data.map((crypto: any) => ({
+                    id: crypto.id,
                     name: crypto.name,
                     symbol: crypto.symbol,
                     image: crypto.image,
@@ -60,7 +58,7 @@ const CryptoDropdown = (props) => {
             setSearchQuery(crypto.name);
             setTagCrypto(crypto.symbol);
         }
-        props.onSelectCrypto(crypto.name, crypto.symbol, crypto.image);
+        props.onSelectCrypto(crypto.id, crypto.name, crypto.symbol, crypto.image);
         setIsOpen(false);
     };
 
@@ -69,6 +67,7 @@ const CryptoDropdown = (props) => {
             {isOpen && (
                 <div className={styles.close}
                      onClick={() => handleSelectCrypto({
+                            id: '',
                             image: '',
                             name: '',
                             symbol: ''

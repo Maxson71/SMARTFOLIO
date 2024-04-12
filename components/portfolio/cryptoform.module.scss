@@ -32,6 +32,88 @@
   gap: 8px;
 }
 
+.type {
+  display: flex;
+  min-width: 350px;
+  flex-direction: row;
+  font-size: 16px;
+  font-weight: 500;
+  justify-content: space-around;
+  background-color: #e8e8e8;
+  padding: 4px;
+}
+
+.inputs {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+}
+
+.button {
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 40px;
+  background: #e8e8e8;
+  color: #333333;
+  transition: 0.2s all ease-in-out;
+  width: 50%;
+  cursor: pointer;
+
+  &:hover,
+  &:active {
+    color: #128C76;
+    background: #ffffff;
+  }
+}
+
+.active {
+  background: #128C76;
+  color: #ffffff;
+  &:hover,
+  &:active {
+    background: #128C76;
+    color: #ffffff;
+  }
+}
+
+.button_buy {
+  &:hover,
+  &:active {
+    color: #28a745;
+    background: #ffffff;
+  }
+}
+
+.active_buy {
+  background: #28a745;
+  color: #ffffff;
+  &:hover,
+  &:active {
+    background: #28a745;
+    color: #ffffff;
+  }
+}
+
+.button_sell {
+  &:hover,
+  &:active {
+    color: #CA3D3D;
+    background: #ffffff;
+  }
+}
+
+.active_sell {
+  background: #CA3D3D;
+  color: #ffffff;
+  &:hover,
+  &:active {
+    background: #CA3D3D;
+    color: #ffffff;
+  }
+}
+
 .blocked_submit_button {
   color: #999999;
 }
@@ -45,7 +127,7 @@
 }
 
 .cancel_button {
-  color: #333333;new_portfolio_form
+  color: #333333;
   &:hover {
     color: #CA3D3D;
   }

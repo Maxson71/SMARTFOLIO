@@ -40,10 +40,14 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
+
   accounts      Account[]
   sessions      Session[]
-  portfolios  Portfolio[]
-  transactions Transaction[]
+  portfolios    Portfolio[]
+
+  CryptoTransaction CryptoTransaction[]
+  SharesTransaction SharesTransaction[]
+  FiatTransaction FiatTransaction[]
 }
 
 model VerificationToken {
@@ -61,21 +65,63 @@ model Portfolio {
   user        User?     @relation(fields: [userEmail], references: [email])
   userEmail   String?
 
-  Transaction Transaction[]
+  CryptoTransaction CryptoTransaction[]
+  SharesTransaction SharesTransaction[]
+  FiatTransaction   FiatTransaction[]
+  @@unique([id, userEmail])
+}
+
+model CryptoTransaction {
+  id              String    @id @default(cuid())
+  nameCrypto      String
+  tagCrypto       String
+  imageCrypto     String
+  amount          Float
+  price           Float
+  typeTransaction String    // "buy" або "sell"
+  date            DateTime
+
+  Portfolio       Portfolio? @relation(fields: [PortfolioId], references: [id])
+  PortfolioId     String?
+
+  user            User?     @relation(fields: [userEmail], references: [email])
+  userEmail       String?
 
   @@unique([id, userEmail])
 }
 
-model Transaction {
+model SharesTransaction {
   id              String    @id @default(cuid())
-  asset           String
+  nameShares      String
+  tagShares       String
+  imageShares     String
   amount          Float
   price           Float
-  type            String    // "buy" або "sell"
-  typeTransaction String    // "crypto" або "shares" aбо "fiat"
+  typeTransaction String    // "buy" або "sell"
   date            DateTime
-  Portfolio    Portfolio? @relation(fields: [PortfolioId], references: [id])
-  PortfolioId  String?
+
+  Portfolio       Portfolio? @relation(fields: [PortfolioId], references: [id])
+  PortfolioId     String?
+
+  user            User?     @relation(fields: [userEmail], references: [email])
+  userEmail       String?
+
+  @@unique([id, userEmail])
+}
+
+model FiatTransaction {
+  id              String    @id @default(cuid())
+  nameFiat        String
+  tagFiat         String
+  imageFiat       String
+  amount          Float
+  price           Float
+  typeTransaction String    // "buy" або "sell"
+  date            DateTime
+
+  Portfolio       Portfolio? @relation(fields: [PortfolioId], references: [id])
+  PortfolioId     String?
+
   user            User?     @relation(fields: [userEmail], references: [email])
   userEmail       String?
 
