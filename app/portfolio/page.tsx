@@ -1,6 +1,8 @@
 import styles from "./portfolio-page.module.scss";
 import SidePanel from "@/components/sidepanel/SidePanel";
-export default function MainPortfolioPage() {
+
+
+const MainPortfolioPage = async () => {
     return (
         <main className={styles.main}>
             <SidePanel/>
@@ -10,3 +12,5 @@ export default function MainPortfolioPage() {
         </main>
     );
 }
+
+export default MainPortfolioPage;

@@ -26,6 +26,28 @@
     background: #ffffff;
   }
 }
+.button_add {
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px 12px 16px;
+  background: #128C76;
+  color: #ffffff;
+  border: 1.5px solid #128C76;
+  transition: 0.2s all ease-in-out;
+  &:hover,
+  &:active {
+    color: #128C76;
+    box-shadow:
+            inset -90px 0 0 0 #ffffff,
+            inset 90px 0 0 0 #ffffff;
+  }
+  &:active {
+    transform: scale(0.8);
+  }
+}
 
 .active {
   background: #128C76;

@@ -62,6 +62,8 @@ model Portfolio {
   id          String    @id @default(cuid())
   name        String
   balance     Float     @default(0)
+  difference      Float    @default(0)
+
   user        User?     @relation(fields: [userEmail], references: [email])
   userEmail   String?
 
@@ -73,13 +75,17 @@ model Portfolio {
 
 model CryptoTransaction {
   id              String    @id @default(cuid())
+  idCrypto        String
   nameCrypto      String
   tagCrypto       String
   imageCrypto     String
   amount          Float
   price           Float
-  typeTransaction String    // "buy" або "sell"
-  date            DateTime
+  balance         Float    @default(0)
+  currentPrice    Float    @default(0)
+  difference      Float    @default(0)
+
+  date            DateTime @default(now())
 
   Portfolio       Portfolio? @relation(fields: [PortfolioId], references: [id])
   PortfolioId     String?
@@ -92,13 +98,14 @@ model CryptoTransaction {
 
 model SharesTransaction {
   id              String    @id @default(cuid())
+  idShares        String
   nameShares      String
   tagShares       String
   imageShares     String
   amount          Float
   price           Float
-  typeTransaction String    // "buy" або "sell"
-  date            DateTime
+  balance         Float    @default(0)
+  date            DateTime @default(now())
 
   Portfolio       Portfolio? @relation(fields: [PortfolioId], references: [id])
   PortfolioId     String?
@@ -111,13 +118,14 @@ model SharesTransaction {
 
 model FiatTransaction {
   id              String    @id @default(cuid())
+  idFiat          String
   nameFiat        String
   tagFiat         String
   imageFiat       String
   amount          Float
   price           Float
-  typeTransaction String    // "buy" або "sell"
-  date            DateTime
+  balance         Float      @default(0)
+  date            DateTime   @default(now())
 
   Portfolio       Portfolio? @relation(fields: [PortfolioId], references: [id])
   PortfolioId     String?

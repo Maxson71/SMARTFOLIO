@@ -1,5 +1,4 @@
 import React, {ChangeEvent, FormEvent, useState} from "react";
-import {useSession} from "next-auth/react";
 import {useRouter} from "next/navigation";
 import axios from "axios";
 import styles from "./cryptoform.module.scss";
@@ -13,9 +12,11 @@ interface FormData {
     amount: number;
     price: number;
     typeTransaction: string;
-    date: string;
+    date: Date;
+    currentPrice: number;
 }
-const CryptoForm = () => {
+
+const CryptoForm = ({portfolioId, setActive}) => {
     const [formData, setFormData] = useState<FormData>({
             idCrypto: '',
             nameCrypto: '',
@@ -23,32 +24,57 @@ const CryptoForm = () => {
             imageCrypto: '',
             amount: 0.00,
             price: 0.00,
-            typeTransaction: 'buy',
-            date: '',
+            typeTransaction: "buy",
+            date: new Date(),
+            currentPrice: 0.00,
         }
     );
     const router = useRouter();
-    const [activeType, setActiveType] = useState<number>(1);
     const totalSpent = (formData.amount * formData.price).toFixed(2);
 
     const handleSelectCrypto = async (idCrypto: string, nameCrypto: string, tagCrypto: string, imageCrypto: string) => {
 
         if (idCrypto !== '') {
             try {
-                const response = await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=${idCrypto}&vs_currencies=usd`);
-                const currentPrice = response.data[idCrypto].usd;
+                const response = await axios.get(`https://api.coincap.io/v2/assets/${idCrypto}`);
+                const currentPrice = parseFloat(response.data.data.priceUsd) >= 1
+                    ?
+                    parseFloat(response.data.data.priceUsd).toFixed(2)
+                    :
+                    parseFloat(response.data.data.priceUsd).toFixed(4);
 
+                if (!currentPrice) {
+                    return;
+                }
                 setFormData({
                     ...formData,
                     idCrypto,
                     nameCrypto,
                     tagCrypto,
                     imageCrypto,
-                    price: currentPrice,
+                    price: parseFloat(currentPrice),
+                    currentPrice: parseFloat(currentPrice),
                 });
 
             } catch (error) {
-                console.error(error);
+                try {
+                    const response = await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=${idCrypto}&vs_currencies=usd`);
+                    const currentPrice = response.data[idCrypto].usd;
+                    if (!currentPrice) {
+                        return;
+                    }
+                    setFormData({
+                        ...formData,
+                        idCrypto,
+                        nameCrypto,
+                        tagCrypto,
+                        imageCrypto,
+                        price: currentPrice,
+                        currentPrice: currentPrice,
+                    });
+                } catch (error) {
+                    console.error(error);
+                }
             }
         } else {
             setFormData({
@@ -64,10 +90,11 @@ const CryptoForm = () => {
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
         const {name, value} = e.target
+        const numericValue = parseFloat(value);
 
         setFormData({
             ...formData,
-            [name]: value,
+            [name]: numericValue,
         });
     }
 
@@ -79,10 +106,15 @@ const CryptoForm = () => {
                 console.error('Неправильно введено назву криптовалюти');
                 return;
             }
-
-            const response = await axios.post('/api/portfolios', formData);
+            const response = await axios.post('/api/transaction/crypto',
+                {
+                    portfolioId,
+                    formData
+                }
+            );
             if (response.status === 200) {
-                router.push(`/portfolio/${response.data.newPortfolio.id}`);
+                router.refresh();
+                setActive(false);
             }
         } catch (error) {
             console.error(error);
@@ -109,7 +141,8 @@ const CryptoForm = () => {
                     type="number"
                     name="price"
                     placeholder="0.00"
-                    step={0.00001}
+                    step="any"
+                    pattern="\d+(\.\d{1,5})?"
                     className={styles.portfolio_input_name}
                     value={formData.price}
                     onChange={handleChange}
@@ -119,14 +152,20 @@ const CryptoForm = () => {
             </div>
             <div className={styles.type}>
                 <div
-                    onClick={() => setActiveType(1)}
-                    className={activeType === 1 ? `${styles.active_buy} ${styles.active} ${styles.button}` : `${styles.button} ${styles.button_buy}`}
+                    onClick={() => setFormData({
+                        ...formData,
+                        typeTransaction: "buy"
+                    })}
+                    className={formData.typeTransaction === "buy" ? `${styles.active_buy} ${styles.active} ${styles.button}` : `${styles.button} ${styles.button_buy}`}
                 >
                     Купівля
                 </div>
                 <div
-                    onClick={() => setActiveType(2)}
-                    className={activeType === 2 ? `${styles.active_sell} ${styles.active} ${styles.button}` : `${styles.button} ${styles.button_sell}`}
+                    onClick={() => setFormData({
+                        ...formData,
+                        typeTransaction: "sell"
+                    })}
+                    className={formData.typeTransaction === "sell" ? `${styles.active_sell} ${styles.active} ${styles.button}` : `${styles.button} ${styles.button_sell}`}
                 >
                     Продаж
                 </div>

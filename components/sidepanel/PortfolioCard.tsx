@@ -3,6 +3,7 @@ import styles from "./portfoliocard.module.scss";
 import Link from "next/link";
 
 const PortfolioCard = (props) => {
+
     return (
         <Link className={styles.portfoliocard} href={`/portfolio/${props.id}`}>
             <div>

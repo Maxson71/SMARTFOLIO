@@ -1,0 +1,21 @@
+.transaction_card {
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    display: grid;
+    grid-template-columns: 1.2fr 0.6fr 1.2fr 0.6fr 1.2fr 0.6fr 1.2fr 20px;
+}
+
+.image {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.name {
+    font-size: 16px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+}
