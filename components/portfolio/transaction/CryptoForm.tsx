@@ -2,7 +2,7 @@ import React, {ChangeEvent, FormEvent, useState} from "react";
 import {useRouter} from "next/navigation";
 import axios from "axios";
 import styles from "./cryptoform.module.scss";
-import CryptoDropdown from "@/components/portfolio/CryptoDropdown";
+import CryptoDropdown from "@/components/portfolio/transaction/CryptoDropdown";
 
 interface FormData {
     idCrypto: string;
@@ -100,7 +100,6 @@ const CryptoForm = ({portfolioId, setActive}) => {
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
         try {
             if (formData.idCrypto === '') {
                 console.error('Неправильно введено назву криптовалюти');

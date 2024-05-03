@@ -2,12 +2,6 @@
 import React from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import styles from "../button.module.scss";
-import { useRouter } from 'next/navigation';
-
-const redirectToHome = () => {
-    const router = useRouter();
-    router.push('/');
-};
 
 const SigninButton = () => {
     const { data: session } = useSession();
@@ -16,10 +10,10 @@ const SigninButton = () => {
         return (
             <>
                 <img src={session.user.image} alt={session.user.name}
-                     style={{
+                    style={{
                     height: "32px",
                     borderRadius: "16px"
-                }}
+                    }}
                 />
                 <button onClick={() => signOut()} className={styles.signOutbutton}>
                     ВИЙТИ

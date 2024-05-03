@@ -7,18 +7,31 @@ import TransactionForm from "@/components/portfolio/TransactionForm";
 import GetTransaction from "@/components/portfolio/GetTransaction";
 import TransactionGraph from "@/components/portfolio/TransactionGraph";
 import Price from "@/components/price";
+import {getCurrentUser} from "@/lib/session";
+import TransactionRatioPieChart from "@/components/portfolio/TransactionRatioPieChart";
 
 interface PortfolioPageProps {
     params: {
         id: string;
-    };
+    }; 
 }
 
 const PortfolioPage: FC<PortfolioPageProps> = async ({params}) => {
+    const user = await getCurrentUser();
+    if (!user) return;
+
     const portfolio = await prisma.portfolio.findFirst({
         where: {
             id: params.id,
+            userEmail: user.email,
         }
+    });
+
+    const portfolioAssetsData = await prisma.cryptoTransaction.findMany({
+        where: {
+            PortfolioId: params.id,
+            userEmail: user.email,
+        },
     });
 
     const bestTransaction = await prisma.cryptoTransaction.findFirst({
@@ -74,62 +87,73 @@ const PortfolioPage: FC<PortfolioPageProps> = async ({params}) => {
                         </h1>
                     </div>
                     <div className={styles.difference}>
-                        <Price price={(portfolio?.difference).toFixed(2)} setcolor={true} type={"$"}/>
+                        <div>
+                            <Price price={(portfolio?.difference).toFixed(2)} setcolor={true} type={"$"}/>
 
-                        <Price price={((portfolio?.difference / portfolio?.balance)).toFixed(2)} setcolor={true}
-                               type={"%"}/>
+                            <Price price={((portfolio?.difference / portfolio?.balance)*100).toFixed(2)} setcolor={true}
+                                   type={"%"}/>
+                        </div>
                     </div>
-                    <div className={styles.best_transaction}>
-                        <h1>
+                    <div className={styles.transaction}>
+                        <div>
                             Найкраща транзакція
-                        </h1>
+                        </div>
                         <div className={styles.name}>
                             <img
                                 src={bestTransaction?.imageCrypto}
                                 alt={bestTransaction?.tagCrypto}
-                                width={20}
-                                height={20}
+                                width={30}
+                                height={30}
+                                style={
+                                    {
+                                        borderRadius: "50%",
+                                    }
+                                }
                             />
                             <div>
                                 {bestTransaction?.nameCrypto}
                             </div>
                         </div>
-                        <h1>
+                        <div>
                             <Price price={bestTransaction?.difference.toFixed(2)} setcolor={true} type={"$"}/>
-                        </h1>
-                        <h1>
                             <Price price={((bestTransaction?.difference / bestTransaction?.price) * 100).toFixed(2)}
                                    setcolor={true} type={"%"}/>
-                        </h1>
+                        </div>
                     </div>
-                    <div className={styles.best_transaction}>
-                        <h1>
+                    <div className={styles.transaction}>
+                        <div>
                             Найгірша транзакція
-                        </h1>
-                        <div className={styles.name}>
+                        </div>
+                        <div>
                             <img
                                 src={worstTransaction?.imageCrypto}
                                 alt={worstTransaction?.tagCrypto}
-                                width={20}
-                                height={20}
+                                width={30}
+                                height={30}
+                                style={
+                                    {
+                                        borderRadius: "50%",
+                                    }
+                                }
                             />
                             <div>
                                 {worstTransaction?.nameCrypto}
                             </div>
                         </div>
-                        <h1>
+                        <div>
                             <Price price={worstTransaction?.difference.toFixed(2)} setcolor={true} type={"$"}/>
-                        </h1>
-                        <h1>
                             <Price price={((worstTransaction?.difference / worstTransaction?.price) * 100).toFixed(2)}
                                    setcolor={true} type={"%"}/>
-                        </h1>
+                        </div>
                     </div>
                     <TransactionForm portfolioId={params.id}/>
                 </div>
-                <TransactionGraph portfolioId={params.id}/>
+                <div className={styles.graph}>
+                    <TransactionGraph portfolioAssetsData={portfolioAssetsData}/>
+                    <TransactionRatioPieChart portfolioAssetsData={portfolioAssetsData} balance={portfolio?.balance}/>
+                </div>
                 <div>
-                <div className={styles.card_title}>
+                    <div className={styles.card_title}>
                         <div>
                             Назва
                         </div>

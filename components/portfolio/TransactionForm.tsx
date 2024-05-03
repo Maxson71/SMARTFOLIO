@@ -2,7 +2,7 @@
 import React, {useState} from "react";
 import CustomModal from "@/components/CustomModal";
 import styles from "./transactionform.module.scss";
-import CryptoForm from "@/components/portfolio/CryptoForm";
+import CryptoForm from "@/components/portfolio/transaction/CryptoForm";
 import {AiOutlinePlus} from "react-icons/ai";
 
 
@@ -37,8 +37,8 @@ const TransactionForm = ({portfolioId}) => {
                 </div>
 
                 { activeType === 1 && <CryptoForm setActive={setModalIsOpen} portfolioId = {portfolioId} /> }
-                { activeType === 2 && <p> Акції </p> }
-                { activeType === 3 && <p> Фіат </p> }
+                { activeType === 2 && <p> В майбутньому </p> }
+                { activeType === 3 && <p> В майбутньому </p> }
 
             </CustomModal>
             <button className={styles.button_add} onClick={() => setModalIsOpen(true)}>

@@ -15,10 +15,11 @@
 }
 
 .top {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 0.8fr 0.8fr 0.8fr 1.2fr 0.5fr;
   justify-content: space-between;
   width: 100%;
+  z-index: 1;
 }
 
 .name_balance {
@@ -29,6 +30,18 @@
   gap: 16px;
 }
 
+.difference {
+  display: flex;
+  font-size: 20px;
+  font-weight: 700;
+  > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+  }
+}
+
 .card_title {
   display: grid;
   grid-template-columns: 1.2fr 0.6fr 1.2fr 0.6fr 1.2fr 0.6fr 1.2fr 20px;
@@ -37,4 +50,35 @@
   padding: 10px;
   border-bottom: 1px solid #e0e0e0;
   justify-content: space-between;
+}
+
+.graph {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  z-index: 0;
+}
+
+.transaction {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0 10px;
+    font-weight: bold;
+    color: #333333;
+
+  > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+  }
+}
+
+.transaction_info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }

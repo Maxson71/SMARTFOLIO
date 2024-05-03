@@ -1,7 +1,6 @@
 "use client"
 import React, {useEffect, useState} from "react";
 import styles from "./transactioncard.module.scss";
-import Link from "next/link";
 import axios from "axios";
 import { BiSolidTrashAlt } from "react-icons/bi";
 import colors from "@/constants/colors";
