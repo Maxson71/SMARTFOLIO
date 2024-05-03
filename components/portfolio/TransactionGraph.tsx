@@ -27,12 +27,11 @@ const TransactionGraph = ({ portfolioAssetsData }) => {
                     history.forEach(entry => {
                         const date = new Date(entry.time).toLocaleDateString();
                         const value = parseFloat((entry.priceUsd * assetAmount).toFixed(2));
-                        const existingEntry = transformed.find(item => item.date === date);
-
-                        if (!existingEntry) {
+                        const existingEntryIndex = transformed.findIndex(item => item.date === date);
+                        if (existingEntryIndex === -1) {
                             transformed.push({ date, value });
                         } else {
-                            existingEntry.value = (+existingEntry.value + +value).toFixed(2);
+                            transformed[existingEntryIndex].value += value;
                         }
                     });
                 });
@@ -60,7 +59,7 @@ const TransactionGraph = ({ portfolioAssetsData }) => {
                     backgroundColor: '#fff',
                     border: '1px solid #999999',
                     padding: '10px' }}>
-                    <p>{`$${payload[0].value}`}</p>
+                    <p>{`$${(payload[0].value).toFixed(2)}`}</p>
                 </div>
             );
         }

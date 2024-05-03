@@ -52,7 +52,7 @@ const PortfolioPage: FC<PortfolioPageProps> = async ({params}) => {
         },
     });
 
-    if (portfolio?.balance === 0) {
+    if (!(portfolio?.balance) || portfolio?.balance === 0) {
         return (
             <main className={styles.main}>
                 <SidePanel/>
@@ -158,10 +158,10 @@ const PortfolioPage: FC<PortfolioPageProps> = async ({params}) => {
                             Назва
                         </div>
                         <div>
-                            Актив
+                            Актив ($)
                         </div>
                         <div>
-                            Актив ($)
+                            Актив
                         </div>
                         <div>
                             Ціна
